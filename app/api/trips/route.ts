@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { connectDB } from '@/lib/mongodb.js'
+import connectDB from '@/lib/mongodb.js'
 import Trip from '@/lib/models/trip'
 import type { Trip as TripType } from '@/lib/storage'
 

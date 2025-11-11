@@ -1,4 +1,4 @@
-import { connectDB } from "../../../lib/mongodb";
+import connectDB from "../../../lib/mongodb.js";
 import User from "../../../models/User";
 
 export async function GET() {
