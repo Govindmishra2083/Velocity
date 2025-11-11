@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { connectDB } from '@/lib/mongodb.js'
+import dbConnect from '@/lib/mongodb'
 import Message from '@/lib/models/message'
 import type { Message as MessageType } from '@/lib/storage'
 
 export async function GET() {
   try {
-    await connectDB()
+    await dbConnect()
     const messages = await Message.find({}).sort({ id: 1 })
     return NextResponse.json(messages)
   } catch (error) {
@@ -16,7 +16,7 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    await connectDB()
+    await dbConnect()
     const messageData: MessageType = await request.json()
 
     // Check if message with this id already exists
@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
-    await connectDB()
+    await dbConnect()
     const messagesData: MessageType[] = await request.json()
 
     // Clear existing messages and insert new ones

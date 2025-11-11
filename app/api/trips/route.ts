@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
-import connectDB from '@/lib/mongodb.js'
+import dbConnect from '@/lib/mongodb'
 import Trip from '@/lib/models/trip'
 import type { Trip as TripType } from '@/lib/storage'
 
 export async function GET() {
   try {
-    await connectDB()
+    await dbConnect()
     const trips = await Trip.find({}).sort({ date: 1 })
     return NextResponse.json(trips)
   } catch (error) {
@@ -16,7 +16,7 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    await connectDB()
+    await dbConnect()
     const tripData: TripType = await request.json()
 
     // Check if trip with this id already exists
@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
-    await connectDB()
+    await dbConnect()
     const tripsData: TripType[] = await request.json()
 
     // Clear existing trips and insert new ones

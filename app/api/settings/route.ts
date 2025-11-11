@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { connectDB } from '@/lib/mongodb.js'
+import dbConnect from '@/lib/mongodb'
 import AppSettings from '@/lib/models/appSettings'
 import type { AppSettings as AppSettingsType } from '@/lib/storage'
 
 export async function GET() {
   try {
-    await connectDB()
+    await dbConnect()
     const settings = await AppSettings.find({})
     if (settings.length === 0) {
       return NextResponse.json(null)
@@ -19,7 +19,7 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    await connectDB()
+    await dbConnect()
     const settingsData: AppSettingsType = await request.json()
 
     // Check if settings already exist
@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
-    await connectDB()
+    await dbConnect()
     const settingsData: AppSettingsType = await request.json()
 
     const updatedSettings = await AppSettings.findOneAndUpdate(

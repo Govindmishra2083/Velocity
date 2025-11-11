@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { connectDB } from '@/lib/mongodb.js'
+import dbConnect from '@/lib/mongodb'
 import UserProfile from '@/lib/models/userProfile'
 import type { UserProfile as UserProfileType } from '@/lib/storage'
 
 export async function GET() {
   try {
-    await connectDB()
+    await dbConnect()
     const profiles = await UserProfile.find({})
     if (profiles.length === 0) {
       return NextResponse.json(null)
@@ -19,7 +19,7 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    await connectDB()
+    await dbConnect()
     const profileData: UserProfileType = await request.json()
 
     // Check if profile already exists (we'll use email as unique identifier)
@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
-    await connectDB()
+    await dbConnect()
     const profileData: UserProfileType = await request.json()
 
     const updatedProfile = await UserProfile.findOneAndUpdate(

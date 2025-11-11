@@ -1,9 +1,9 @@
-import connectDB from "../../../lib/mongodb.js";
+import dbConnect from "../../../lib/mongodb";
 import User from "../../../models/User";
 
 export async function GET() {
   try {
-    await connectDB();
+    await dbConnect();
     const users = await User.find();
     return Response.json(users);
   } catch (err) {
@@ -14,7 +14,7 @@ export async function GET() {
 
 export async function POST(request) {
   try {
-    await connectDB();
+    await dbConnect();
     const data = await request.json();
     const newUser = await User.create(data);
     return Response.json(newUser);

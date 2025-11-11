@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { connectDB } from '@/lib/mongodb.js'
+import dbConnect from '@/lib/mongodb'
 import SplitTransaction from '@/lib/models/splitTransaction'
 import type { SplitTransaction as SplitTransactionType } from '@/lib/storage'
 
 export async function GET() {
   try {
-    await connectDB()
+    await dbConnect()
     const splits = await SplitTransaction.find({}).sort({ id: 1 })
     return NextResponse.json(splits)
   } catch (error) {
@@ -16,7 +16,7 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    await connectDB()
+    await dbConnect()
     const splitData: SplitTransactionType = await request.json()
 
     // Check if split with this id already exists
@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
-    await connectDB()
+    await dbConnect()
     const splitsData: SplitTransactionType[] = await request.json()
 
     // Clear existing splits and insert new ones
